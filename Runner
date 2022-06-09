@@ -1,0 +1,68 @@
+package progettoSpringProfessional;
+
+import javax.swing.*;
+import java.awt.event.*;
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class Runner extends JFrame
+{
+  private JButton button;
+  private JLabel label;
+  static WebDriver driver;
+  static WebDriverWait wait;
+  public static void main(String[] args) {
+    
+	  new Runner();
+    
+  }
+  public Runner()
+  {
+    this.setSize(300,300);
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setTitle("GoogleWithSelenium");
+    this.setLayout(null);
+    Clicklistener click = new Clicklistener();
+    button = new JButton ("Naviga");
+    button.setBounds(100,100,100,40);
+    button.addActionListener(click);
+   
+    
+    label = new JLabel();
+    label.setBounds(100,150,150,20);
+    
+    this.add(button);
+    this.add(label);
+    this.setVisible(true);
+  }
+    
+  private class Clicklistener implements ActionListener
+  {
+    public void actionPerformed(ActionEvent e)
+    {
+      if (e.getSource() == button)
+      {
+    	  WebDriverManager.chromedriver().setup();
+  		driver=new ChromeDriver();
+  		driver.get("https://www.google.it");
+  		WebElement popUp = new WebDriverWait(driver, Duration.ofSeconds(10))
+  		        .until(ExpectedConditions.elementToBeClickable(By.className("KxvlWc")));
+  		//WebElement popUp=driver.findElement(By.className("KxvlWc"));
+  		WebElement acceptButtonDiv=popUp.findElement(By.className("VDity"));
+  		WebElement acceptButton=acceptButtonDiv.findElement(By.id("L2AGLb"));
+  		acceptButton.click();
+      }
+      
+      
+    }
+  }
+}
